@@ -36,7 +36,7 @@ export default function Dashboard() {
     setSummary({ total, completed, pending: total - completed });
   };
 
-  useEffect(() => { fetchTasks(); /* eslint-disable-next-line */ }, [filters]);
+  useEffect(() => { fetchTasks(); }, [filters]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleAddTask = newTask => {
     const updated = [newTask, ...tasks];
