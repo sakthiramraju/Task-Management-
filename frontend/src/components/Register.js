@@ -35,28 +35,34 @@ export default function Register() {
   }
 
   return (
-    <div className="col-md-6 mx-auto my-5">
-      <h2 className="fw-bold mb-3">Register</h2>
-      <Alert message={alert.msg} type={alert.type} onClose={() => setAlert({ msg: "", type: "" })} />
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label>Username</label>
-          <input className="form-control" type="text" name="username" required onChange={handleChange} />
+    <div className="col-md-5 mx-auto my-5">
+      <div className="card shadow-lg border-0 rounded-4 p-4">
+        <div className="text-center mb-4">
+          <div className="fs-1 mb-2">🚀</div>
+          <h2 className="fw-bold">Create Account</h2>
+          <p className="text-muted">Join Smart To-Do and get organized</p>
         </div>
-        <div className="mb-3">
-          <label>Email</label>
-          <input className="form-control" type="email" name="email" required onChange={handleChange} />
+        <Alert message={alert.msg} type={alert.type} onClose={() => setAlert({ msg: "", type: "" })} />
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label fw-semibold">Username</label>
+            <input className="form-control form-control-lg" type="text" name="username" required onChange={handleChange} placeholder="Choose a username" />
+          </div>
+          <div className="mb-3">
+            <label className="form-label fw-semibold">Email</label>
+            <input className="form-control form-control-lg" type="email" name="email" required onChange={handleChange} placeholder="your@email.com" />
+          </div>
+          <div className="mb-3">
+            <label className="form-label fw-semibold">Password</label>
+            <input className="form-control form-control-lg" type="password" name="password" required minLength={6} onChange={handleChange} placeholder="Min 6 characters" />
+          </div>
+          <button type="submit" className="btn btn-primary btn-lg w-100 fw-bold mt-2" disabled={loading}>
+            {loading ? <Loader /> : "Create Account"}
+          </button>
+        </form>
+        <div className="mt-4 text-center">
+          Already have an account? <Link to="/login" className="fw-semibold">Login here</Link>
         </div>
-        <div className="mb-3">
-          <label>Password</label>
-          <input className="form-control" type="password" name="password" required minLength={6} onChange={handleChange} />
-        </div>
-        <button type="submit" className="btn btn-primary w-100" disabled={loading}>
-          {loading ? <Loader /> : "Register"}
-        </button>
-      </form>
-      <div className="mt-4 text-center">
-        Already have an account? <Link to="/login">Login here</Link>
       </div>
     </div>
   );

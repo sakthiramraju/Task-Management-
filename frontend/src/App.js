@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
 import Navbar from "./components/Navbar";
+import "./App.css";
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem("access");
@@ -11,6 +12,12 @@ function PrivateRoute({ children }) {
 }
 
 function App() {
+  // Initialize theme from localStorage on first load
+  useEffect(() => {
+    const theme = localStorage.getItem("theme") || "light";
+    document.documentElement.setAttribute("data-theme", theme);
+  }, []);
+
   return (
     <Router>
       <Navbar />
@@ -24,4 +31,5 @@ function App() {
     </Router>
   );
 }
+
 export default App;

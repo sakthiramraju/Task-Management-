@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import API from "../services/api";
 import Loader from "./Loader";
+import Alert from "./Alert";
 
 export default function TaskForm({ onTaskAdd }) {
   const [form, setForm] = useState({ title: "", description: "", priority: "Medium", due_date: "" });
   const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState({ msg: "", type: "" });
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -13,23 +15,29 @@ export default function TaskForm({ onTaskAdd }) {
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
+    setAlert({ msg: "", type: "" });
     try {
       const res = await API.post("tasks/", form);
       onTaskAdd(res.data);
       setForm({ title: "", description: "", priority: "Medium", due_date: "" });
-    } catch {
+    } catch (error) {
+      const errMsg =
+        (error.response && Object.values(error.response.data)[0]) ||
+        "Failed to add task. Please try again.";
+      setAlert({ msg: errMsg, type: "danger" });
     }
     setLoading(false);
   }
 
   return (
-    <form onSubmit={handleSubmit} className="card card-body mb-4 shadow">
-      <h4 className="mb-2">Add New Task</h4>
+    <form onSubmit={handleSubmit} className="card border-0 shadow-sm rounded-4 p-4 mb-4">
+      <h5 className="fw-bold mb-3">➕ Add New Task</h5>
+      <Alert message={alert.msg} type={alert.type} onClose={() => setAlert({ msg: "", type: "" })} />
       <div className="row g-2">
         <div className="col-md-6 mb-2">
           <input
             className="form-control"
-            placeholder="Title*"
+            placeholder="Task title *"
             required
             name="title"
             value={form.title}
@@ -49,26 +57,21 @@ export default function TaskForm({ onTaskAdd }) {
         <div className="col-md-7 mb-2">
           <input
             className="form-control"
-            placeholder="Description"
+            placeholder="Description (optional)"
             name="description"
             value={form.description}
             onChange={handleChange}
           />
         </div>
         <div className="col-md-5 mb-2">
-          <select
-            className="form-select"
-            name="priority"
-            value={form.priority}
-            onChange={handleChange}
-          >
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
+          <select className="form-select" name="priority" value={form.priority} onChange={handleChange}>
+            <option value="Low">🟢 Low Priority</option>
+            <option value="Medium">🟡 Medium Priority</option>
+            <option value="High">🔴 High Priority</option>
           </select>
         </div>
       </div>
-      <button className="btn btn-primary mt-2" type="submit" disabled={loading}>
+      <button className="btn btn-primary fw-bold mt-2" type="submit" disabled={loading}>
         {loading ? <Loader /> : "Add Task"}
       </button>
     </form>

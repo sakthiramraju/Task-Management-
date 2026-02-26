@@ -1,13 +1,225 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ===== CSS Variables (Light Theme) ===== */
+:root {
+  --bg-body: #f0f2f7;
+  --bg-card: #ffffff;
+  --bg-navbar: #1a1a2e;
+  --text-primary: #1a1a2e;
+  --text-secondary: #6c757d;
+  --text-muted: #9ca3af;
+  --border-color: #e5e7eb;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-hover: 0 6px 24px rgba(0,0,0,0.13);
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --info: #3b82f6;
+  --overdue-bg: #fff5f5;
+  --overdue-border: #ef4444;
+  --stat-total-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --stat-done-bg: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --stat-pending-bg: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  --confirm-bg: #fff3cd;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* ===== Dark Theme ===== */
+[data-theme="dark"] {
+  --bg-body: #0f0f1a;
+  --bg-card: #1e1e2e;
+  --bg-navbar: #0f0f1a;
+  --text-primary: #e2e8f0;
+  --text-secondary: #a0aec0;
+  --text-muted: #718096;
+  --border-color: #2d3748;
+  --shadow: 0 2px 12px rgba(0,0,0,0.4);
+  --shadow-hover: 0 6px 24px rgba(0,0,0,0.5);
+  --overdue-bg: #2d1515;
+  --overdue-border: #ef4444;
+  --confirm-bg: #2d2a1a;
 }
+
+/* ===== Base ===== */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ===== Navbar ===== */
+.app-navbar {
+  background: var(--bg-navbar);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.brand-icon { font-size: 1.4rem; }
+.brand-text { color: #ffffff; letter-spacing: -0.3px; }
+
+.nav-username {
+  color: #a5b4fc;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.theme-toggle {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  padding: 4px 10px;
+  transition: background 0.2s;
+}
+.theme-toggle:hover { background: rgba(255,255,255,0.2); }
+
+/* ===== App Container ===== */
+.app-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 16px 40px;
+}
+
+/* ===== Stat Cards ===== */
+.stat-card {
+  border-radius: 16px;
+  padding: 18px 12px;
+  text-align: center;
+  color: white;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.stat-total { background: var(--stat-total-bg); }
+.stat-completed { background: var(--stat-done-bg); }
+.stat-pending { background: var(--stat-pending-bg); }
+.stat-number { font-size: 2rem; font-weight: 700; line-height: 1; }
+.stat-label { font-size: 0.8rem; font-weight: 600; opacity: 0.9; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ===== Cards ===== */
+.card {
+  background: var(--bg-card) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+  transition: background-color 0.3s ease;
+}
+.card.shadow-sm { box-shadow: var(--shadow) !important; }
+
+/* ===== Form Controls ===== */
+.form-control, .form-select {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
+}
+.form-control::placeholder { color: var(--text-muted) !important; }
+
+/* ===== Task Cards ===== */
+.task-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 16px 20px;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.2s, transform 0.2s, background-color 0.3s ease;
+  border-left: 4px solid transparent;
+}
+.task-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+.task-card-editing { border-left: 4px solid var(--accent); }
+
+.task-completed { border-left: 4px solid var(--success) !important; opacity: 0.75; }
+.task-overdue { background: var(--overdue-bg) !important; border-left: 4px solid var(--overdue-border) !important; }
+
+.task-title { font-size: 1rem; font-weight: 600; color: var(--text-primary); }
+.task-title-done { text-decoration: line-through; color: var(--text-secondary) !important; }
+.task-description { font-size: 0.875rem; color: var(--text-secondary); }
+
+/* ===== Custom Badges ===== */
+.badge-custom {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.badge-priority-high { background: #fee2e2; color: #dc2626; }
+.badge-priority-medium { background: #fef3c7; color: #d97706; }
+.badge-priority-low { background: #d1fae5; color: #059669; }
+.badge-due-overdue { background: #fee2e2; color: #dc2626; }
+.badge-due-today { background: #fef3c7; color: #d97706; }
+.badge-due-future { background: #d1fae5; color: #059669; }
+.badge-status-done { background: #d1fae5; color: #059669; }
+.badge-status-pending { background: #e0e7ff; color: #4f46e5; }
+.badge-overdue-label { background: #ef4444; color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 20px; font-weight: 700; text-transform: uppercase; }
+
+[data-theme="dark"] .badge-priority-high { background: #450a0a; color: #fca5a5; }
+[data-theme="dark"] .badge-priority-medium { background: #451a03; color: #fcd34d; }
+[data-theme="dark"] .badge-priority-low { background: #052e16; color: #6ee7b7; }
+[data-theme="dark"] .badge-due-overdue { background: #450a0a; color: #fca5a5; }
+[data-theme="dark"] .badge-due-today { background: #451a03; color: #fcd34d; }
+[data-theme="dark"] .badge-due-future { background: #052e16; color: #6ee7b7; }
+[data-theme="dark"] .badge-status-done { background: #052e16; color: #6ee7b7; }
+[data-theme="dark"] .badge-status-pending { background: #1e1b4b; color: #a5b4fc; }
+
+/* ===== Confirm Delete Bar ===== */
+.confirm-delete-bar {
+  background: var(--confirm-bg);
+  border: 1px solid #fbbf24;
+  font-size: 0.9rem;
+}
+
+/* ===== Empty State ===== */
+.empty-state .empty-icon {
+  font-size: 4rem;
+  filter: grayscale(0.4);
+}
+.empty-state h4 { color: var(--text-primary); }
+.empty-state p { color: var(--text-secondary); }
+
+/* ===== Buttons ===== */
+.btn-primary {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  transition: background 0.2s, transform 0.1s;
+}
+.btn-primary:hover {
+  background: var(--accent-hover) !important;
+  border-color: var(--accent-hover) !important;
+  transform: translateY(-1px);
+}
+.btn-primary:active { transform: translateY(0); }
+
+/* ===== Progress Bar ===== */
+.progress { background-color: var(--border-color) !important; }
+
+/* ===== Form Labels ===== */
+.form-label { color: var(--text-primary); }
+label { color: var(--text-primary); }
+
+/* ===== Text muted ===== */
+.text-muted { color: var(--text-secondary) !important; }
+
+/* ===== Responsive ===== */
+@media (max-width: 576px) {
+  .stat-number { font-size: 1.5rem; }
+  .task-card { padding: 12px 14px; }
+  .app-container { padding: 0 10px 30px; }
+}
+
+/* ===== Smooth transitions ===== */
+.btn { transition: all 0.18s ease !important; }
+.form-control, .form-select { transition: border-color 0.18s ease, box-shadow 0.18s ease !important; }
