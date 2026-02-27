@@ -74,7 +74,8 @@ ROOT_URLCONF = 'smarttodo.urls'
 # }
 
 
-if os.environ.get("MYSQLHOST"):
+
+if os.environ.get("RAILWAY_ENV") == "true":
     # Railway / Production
     DATABASES = {
         'default': {
@@ -87,13 +88,37 @@ if os.environ.get("MYSQLHOST"):
         }
     }
 else:
-    # Local development (SQLite)
+    # Local development
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
+
+
+
+# if os.environ.get("MYSQLHOST"):
+#     # Railway / Production
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.mysql',
+#             'NAME': os.environ.get('MYSQLDATABASE'),
+#             'USER': os.environ.get('MYSQLUSER'),
+#             'PASSWORD': os.environ.get('MYSQLPASSWORD'),
+#             'HOST': os.environ.get('MYSQLHOST'),
+#             'PORT': os.environ.get('MYSQLPORT'),
+#         }
+#     }
+# else:
+#     # Local development (SQLite)
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     }
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
