@@ -61,18 +61,58 @@ TEMPLATES = [
 
 ROOT_URLCONF = 'smarttodo.urls'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': os.getenv("MYSQL_DATABASE", "smarttodo"),
+#         'USER': os.getenv("MYSQL_USER", "root"),
+#         'PASSWORD': os.getenv("MYSQL_PASSWORD", "root123"),
+#         'HOST': os.getenv("MYSQL_HOST", "localhost"),
+#         'PORT': os.getenv("MYSQL_PORT", "3306"),
+#         'OPTIONS': {"init_command": "SET sql_mode='STRICT_TRANS_TABLES'"},
+#     }
+# }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv("MYSQL_DATABASE", "smarttodo"),
-        'USER': os.getenv("MYSQL_USER", "root"),
-        'PASSWORD': os.getenv("MYSQL_PASSWORD", "root123"),
-        'HOST': os.getenv("MYSQL_HOST", "localhost"),
-        'PORT': os.getenv("MYSQL_PORT", "3306"),
-        'OPTIONS': {"init_command": "SET sql_mode='STRICT_TRANS_TABLES'"},
+
+        # Database name
+        'NAME': os.getenv(
+            'MYSQLDATABASE',
+            os.getenv('MYSQL_DATABASE', 'smarttodo')
+        ),
+
+        # User
+        'USER': os.getenv(
+            'MYSQLUSER',
+            os.getenv('MYSQL_USER', 'root')
+        ),
+
+        # Password
+        'PASSWORD': os.getenv(
+            'MYSQLPASSWORD',
+            os.getenv('MYSQL_PASSWORD', 'root123')
+        ),
+
+        # Host
+        'HOST': os.getenv(
+            'MYSQLHOST',
+            os.getenv('MYSQL_HOST', '127.0.0.1')
+        ),
+
+        # Port
+        'PORT': os.getenv(
+            'MYSQLPORT',
+            os.getenv('MYSQL_PORT', '3306')
+        ),
+
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
-
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
