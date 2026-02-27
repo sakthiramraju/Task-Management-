@@ -102,7 +102,7 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "https://your-frontend.vercel.app",  # Your Vercel frontend URL
+    "https://task-management-five-tawny.vercel.app",  # Your Vercel frontend URL
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
