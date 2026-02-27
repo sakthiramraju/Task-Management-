@@ -1,7 +1,16 @@
 import axios from "axios";
 
+let baseURL = process.env.REACT_APP_API_URL || "http://127.0.0.1:8000";
+
+// Ensure the baseURL points to the /api/ prefix
+if (!baseURL.endsWith("/api") && !baseURL.endsWith("/api/")) {
+  baseURL = baseURL.replace(/\/+$/, "") + "/api/";
+} else if (!baseURL.endsWith("/")) {
+  baseURL += "/";
+}
+
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || "http://127.0.0.1:8000",
+  baseURL: baseURL,
 });
 
 // Attach JWT token to every request

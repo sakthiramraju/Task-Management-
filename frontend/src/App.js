@@ -16,6 +16,7 @@ function App() {
   useEffect(() => {
     const theme = localStorage.getItem("theme") || "light";
     document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-bs-theme", theme);
   }, []);
 
   return (
